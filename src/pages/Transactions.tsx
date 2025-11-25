@@ -2,8 +2,10 @@ import { useState } from "react";
 import { useTransactions, useDeleteTransaction } from "../hooks/useTransactions";
 import TransactionList from "../components/TransactionList";
 import TransactionModal from "../components/TransactionModal";
+import LoadingSpinner from "../components/LoadingSpinner";
+import ErrorMessage from "../components/ErrorMessage";
+import ConfirmDialog from "../components/ConfirmDialog";
 import { TransactionDto } from "../types/types";
-import { isApiError } from "../types/helpers";
 
 export default function Transactions() {
     const [pageNumber, setPageNumber] = useState(1);
@@ -13,7 +15,7 @@ export default function Transactions() {
     const [showModal, setShowModal] = useState(false);
     const [transactionToEdit, setTransactionToEdit] = useState<TransactionDto | undefined>(undefined);
 
-    const { data, isLoading, error } = useTransactions(pageNumber, pageSize);
+    const { data, isLoading, error, refetch } = useTransactions(pageNumber, pageSize);
     const deleteMutation = useDeleteTransaction();
 
     const handleEdit = (transaction: TransactionDto) => {
@@ -66,9 +68,7 @@ export default function Transactions() {
     if (isLoading) {
         return (
             <div className="container mx-auto px-4 py-8">
-                <div className="flex justify-center items-center h-64">
-                    <div className="text-xl text-gray-600">Loading transactions...</div>
-                </div>
+                <LoadingSpinner size="lg" message="Loading transactions..." />
             </div>
         );
     }
@@ -76,17 +76,7 @@ export default function Transactions() {
     if (error) {
         return (
             <div className="container mx-auto px-4 py-8">
-                <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-                    <h3 className="text-red-800 font-semibold mb-2">Error loading transactions</h3>
-                    <p className="text-red-600">{isApiError(error) ? error.message : "An unexpected error occurred"}</p>
-                    {isApiError(error) && error.errors.length > 0 && (
-                        <ul className="mt-2 list-disc list-inside text-red-600">
-                            {error.errors.map((err, idx) => (
-                                <li key={idx}>{err}</li>
-                            ))}
-                        </ul>
-                    )}
-                </div>
+                <ErrorMessage error={error} title="Error loading transactions" onRetry={() => refetch()} />
             </div>
         );
     }
@@ -154,39 +144,17 @@ export default function Transactions() {
             <TransactionModal isOpen={showModal} onClose={handleModalClose} transaction={transactionToEdit} />
 
             {/* Delete Confirmation Dialog */}
-            {showDeleteConfirm && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
-                        <h3 className="text-xl font-bold text-gray-900 mb-4">Confirm Delete</h3>
-                        <p className="text-gray-600 mb-6">
-                            Are you sure you want to delete this transaction? This action cannot be undone.
-                        </p>
-                        <div className="flex justify-end space-x-3">
-                            <button
-                                onClick={handleDeleteCancel}
-                                disabled={deleteMutation.isPending}
-                                className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={handleDeleteConfirm}
-                                disabled={deleteMutation.isPending}
-                                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium disabled:opacity-50"
-                            >
-                                {deleteMutation.isPending ? "Deleting..." : "Delete"}
-                            </button>
-                        </div>
-                        {deleteMutation.isError && (
-                            <div className="mt-4 text-red-600 text-sm">
-                                {isApiError(deleteMutation.error)
-                                    ? deleteMutation.error.message
-                                    : "Failed to delete transaction"}
-                            </div>
-                        )}
-                    </div>
-                </div>
-            )}
+            <ConfirmDialog
+                isOpen={showDeleteConfirm}
+                title="Confirm Delete"
+                message="Are you sure you want to delete this transaction? This action cannot be undone."
+                confirmLabel="Delete"
+                cancelLabel="Cancel"
+                onConfirm={handleDeleteConfirm}
+                onCancel={handleDeleteCancel}
+                isLoading={deleteMutation.isPending}
+                variant="danger"
+            />
         </div>
     );
 }

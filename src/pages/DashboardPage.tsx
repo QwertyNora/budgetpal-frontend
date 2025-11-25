@@ -3,7 +3,8 @@ import { useOverallStatistics, useCategoryStatistics, useMonthlyStatistics } fro
 import StatCard from "../components/StatCard";
 import MonthlyTrendChart from "../components/Charts/MonthlyTrendChart";
 import CategoryBreakdownChart from "../components/Charts/CategoryBreakdownChart";
-import { isApiError } from "../types/helpers";
+import LoadingSpinner from "../components/LoadingSpinner";
+import ErrorMessage from "../components/ErrorMessage";
 
 export default function DashboardPage() {
     const [startDate, setStartDate] = useState<string>("");
@@ -14,6 +15,7 @@ export default function DashboardPage() {
         data: overallStats,
         isLoading: overallLoading,
         error: overallError,
+        refetch: refetchOverall,
     } = useOverallStatistics(startDate || undefined, endDate || undefined);
 
     const { data: categoryStats, isLoading: categoryLoading } = useCategoryStatistics(
@@ -42,12 +44,7 @@ export default function DashboardPage() {
     if (overallError) {
         return (
             <div className="container mx-auto px-4 py-8">
-                <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-                    <h3 className="text-red-800 font-semibold mb-2">Error loading statistics</h3>
-                    <p className="text-red-600">
-                        {isApiError(overallError) ? overallError.message : "An unexpected error occurred"}
-                    </p>
-                </div>
+                <ErrorMessage error={overallError} title="Error loading statistics" onRetry={() => refetchOverall()} />
             </div>
         );
     }
@@ -113,11 +110,7 @@ export default function DashboardPage() {
 
             {/* Stat Cards */}
             {overallLoading ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    {[1, 2, 3, 4].map(i => (
-                        <div key={i} className="bg-gray-100 rounded-lg h-32 animate-pulse" />
-                    ))}
-                </div>
+                <LoadingSpinner size="lg" message="Loading statistics..." />
             ) : overallStats ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                     <StatCard
@@ -187,7 +180,9 @@ export default function DashboardPage() {
                 {/* Monthly Trend Chart */}
                 <div>
                     {monthlyLoading ? (
-                        <div className="bg-gray-100 rounded-lg h-96 animate-pulse" />
+                        <div className="bg-white rounded-lg border border-gray-200 p-6">
+                            <LoadingSpinner size="md" message="Loading monthly trend..." />
+                        </div>
                     ) : monthlyStats ? (
                         <MonthlyTrendChart data={monthlyStats} />
                     ) : null}
@@ -196,7 +191,9 @@ export default function DashboardPage() {
                 {/* Category Breakdown Chart */}
                 <div>
                     {categoryLoading ? (
-                        <div className="bg-gray-100 rounded-lg h-96 animate-pulse" />
+                        <div className="bg-white rounded-lg border border-gray-200 p-6">
+                            <LoadingSpinner size="md" message="Loading category breakdown..." />
+                        </div>
                     ) : categoryStats ? (
                         <CategoryBreakdownChart data={categoryStats} />
                     ) : null}

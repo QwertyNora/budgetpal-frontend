@@ -2,8 +2,10 @@ import { useState } from "react";
 import { useCategories, useDeleteCategory } from "../hooks/useCategories";
 import CategoryList from "../components/CategoryList";
 import CategoryModal from "../components/CategoryModal";
+import LoadingSpinner from "../components/LoadingSpinner";
+import ErrorMessage from "../components/ErrorMessage";
+import ConfirmDialog from "../components/ConfirmDialog";
 import { CategoryDto } from "../types/types";
-import { isApiError } from "../types/helpers";
 
 export default function CategoriesPage() {
     const [showModal, setShowModal] = useState(false);
@@ -11,7 +13,7 @@ export default function CategoriesPage() {
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [categoryToDelete, setCategoryToDelete] = useState<CategoryDto | null>(null);
 
-    const { data: categories, isLoading, error } = useCategories();
+    const { data: categories, isLoading, error, refetch } = useCategories();
     const deleteMutation = useDeleteCategory();
 
     const handleNewCategory = () => {
@@ -67,9 +69,7 @@ export default function CategoriesPage() {
     if (isLoading) {
         return (
             <div className="container mx-auto px-4 py-8">
-                <div className="flex justify-center items-center h-64">
-                    <div className="text-xl text-gray-600">Loading categories...</div>
-                </div>
+                <LoadingSpinner size="lg" message="Loading categories..." />
             </div>
         );
     }
@@ -77,17 +77,7 @@ export default function CategoriesPage() {
     if (error) {
         return (
             <div className="container mx-auto px-4 py-8">
-                <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-                    <h3 className="text-red-800 font-semibold mb-2">Error loading categories</h3>
-                    <p className="text-red-600">{isApiError(error) ? error.message : "An unexpected error occurred"}</p>
-                    {isApiError(error) && error.errors.length > 0 && (
-                        <ul className="mt-2 list-disc list-inside text-red-600">
-                            {error.errors.map((err, idx) => (
-                                <li key={idx}>{err}</li>
-                            ))}
-                        </ul>
-                    )}
-                </div>
+                <ErrorMessage error={error} title="Error loading categories" onRetry={() => refetch()} />
             </div>
         );
     }
@@ -144,69 +134,18 @@ export default function CategoriesPage() {
             <CategoryModal isOpen={showModal} onClose={handleModalClose} category={categoryToEdit} />
 
             {/* Delete Confirmation Dialog */}
-            {showDeleteConfirm && categoryToDelete && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
-                        <h3 className="text-xl font-bold text-gray-900 mb-4">Confirm Delete</h3>
-                        <p className="text-gray-600 mb-2">
-                            Are you sure you want to delete the category <strong>"{categoryToDelete.name}"</strong>?
-                        </p>
-                        <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-6">
-                            <div className="flex items-start">
-                                <svg
-                                    className="h-5 w-5 text-amber-600 mt-0.5 mr-2 flex-shrink-0"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                >
-                                    <path
-                                        fillRule="evenodd"
-                                        d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                                        clipRule="evenodd"
-                                    />
-                                </svg>
-                                <p className="text-sm text-amber-800">
-                                    <strong>Warning:</strong> If this category has associated transactions, the deletion
-                                    will fail. Please reassign or delete those transactions first.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="flex justify-end space-x-3">
-                            <button
-                                onClick={handleDeleteCancel}
-                                disabled={deleteMutation.isPending}
-                                className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium disabled:opacity-50"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={handleDeleteConfirm}
-                                disabled={deleteMutation.isPending}
-                                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium disabled:opacity-50"
-                            >
-                                {deleteMutation.isPending ? "Deleting..." : "Delete"}
-                            </button>
-                        </div>
-
-                        {deleteMutation.isError && (
-                            <div className="mt-4 bg-red-50 border border-red-200 rounded-lg p-3">
-                                <p className="text-red-800 text-sm font-medium mb-1">Failed to delete category</p>
-                                <p className="text-red-600 text-sm">
-                                    {isApiError(deleteMutation.error)
-                                        ? deleteMutation.error.message
-                                        : "An unexpected error occurred"}
-                                </p>
-                                {isApiError(deleteMutation.error) && deleteMutation.error.errors.length > 0 && (
-                                    <ul className="mt-2 list-disc list-inside text-red-600 text-sm">
-                                        {deleteMutation.error.errors.map((err, idx) => (
-                                            <li key={idx}>{err}</li>
-                                        ))}
-                                    </ul>
-                                )}
-                            </div>
-                        )}
-                    </div>
-                </div>
+            {categoryToDelete && (
+                <ConfirmDialog
+                    isOpen={showDeleteConfirm}
+                    title="Confirm Delete"
+                    message={`Are you sure you want to delete the category "${categoryToDelete.name}"? If this category has associated transactions, the deletion will fail. Please reassign or delete those transactions first.`}
+                    confirmLabel="Delete"
+                    cancelLabel="Cancel"
+                    onConfirm={handleDeleteConfirm}
+                    onCancel={handleDeleteCancel}
+                    isLoading={deleteMutation.isPending}
+                    variant="danger"
+                />
             )}
         </div>
     );
