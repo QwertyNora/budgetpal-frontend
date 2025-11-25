@@ -1,15 +1,15 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { transactionService } from "@/api/transactionService";
-import type { Transaction } from "@/types";
+import { UpdateTransactionDto } from "@/types";
 
-export const useTransactions = () => {
+export const useTransactions = (pageNumber: number = 1, pageSize: number = 20) => {
     return useQuery({
-        queryKey: ["transactions"],
-        queryFn: transactionService.getAll,
+        queryKey: ["transactions", pageNumber, pageSize],
+        queryFn: () => transactionService.getAll(pageNumber, pageSize),
     });
 };
 
-export const useTransaction = (id: string) => {
+export const useTransaction = (id: number) => {
     return useQuery({
         queryKey: ["transactions", id],
         queryFn: () => transactionService.getById(id),
@@ -33,7 +33,7 @@ export const useUpdateTransaction = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: ({ id, data }: { id: string; data: Partial<Transaction> }) => transactionService.update(id, data),
+        mutationFn: ({ id, data }: { id: number; data: UpdateTransactionDto }) => transactionService.update(id, data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["transactions"] });
             queryClient.invalidateQueries({ queryKey: ["budgets"] });
