@@ -45,7 +45,7 @@ export const createCategorySchema = z.object({
     name: z
         .string()
         .min(1, "Category name is required")
-        .max(50, "Category name must be less than 50 characters")
+        .max(100, "Category name must be less than 100 characters")
         .regex(
             /^[a-zA-Z0-9\s-_]+$/,
             "Category name can only contain letters, numbers, spaces, hyphens, and underscores"
@@ -59,7 +59,7 @@ export const updateCategorySchema = z.object({
     name: z
         .string()
         .min(1, "Category name is required")
-        .max(50, "Category name must be less than 50 characters")
+        .max(100, "Category name must be less than 100 characters")
         .regex(
             /^[a-zA-Z0-9\s-_]+$/,
             "Category name can only contain letters, numbers, spaces, hyphens, and underscores"
