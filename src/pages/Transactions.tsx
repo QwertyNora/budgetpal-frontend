@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTransactions, useDeleteTransaction } from "../hooks/useTransactions";
 import TransactionList from "../components/TransactionList";
+import TransactionModal from "../components/TransactionModal";
 import { TransactionDto } from "../types/types";
 import { isApiError } from "../types/helpers";
 
@@ -9,13 +10,15 @@ export default function Transactions() {
     const [pageSize] = useState(20);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [transactionToDelete, setTransactionToDelete] = useState<number | null>(null);
+    const [showModal, setShowModal] = useState(false);
+    const [transactionToEdit, setTransactionToEdit] = useState<TransactionDto | undefined>(undefined);
 
     const { data, isLoading, error } = useTransactions(pageNumber, pageSize);
     const deleteMutation = useDeleteTransaction();
 
     const handleEdit = (transaction: TransactionDto) => {
-        // TODO: Open edit modal/form
-        console.log("Edit transaction:", transaction);
+        setTransactionToEdit(transaction);
+        setShowModal(true);
     };
 
     const handleDeleteClick = (id: number) => {
@@ -41,8 +44,13 @@ export default function Transactions() {
     };
 
     const handleNewTransaction = () => {
-        // TODO: Open create modal/form
-        console.log("Create new transaction");
+        setTransactionToEdit(undefined);
+        setShowModal(true);
+    };
+
+    const handleModalClose = () => {
+        setShowModal(false);
+        setTransactionToEdit(undefined);
     };
 
     const handlePreviousPage = () => {
@@ -141,6 +149,9 @@ export default function Transactions() {
                     </button>
                 </div>
             )}
+
+            {/* Transaction Modal */}
+            <TransactionModal isOpen={showModal} onClose={handleModalClose} transaction={transactionToEdit} />
 
             {/* Delete Confirmation Dialog */}
             {showDeleteConfirm && (
