@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { categoryService } from "@/api/categoryService";
-import type { Category } from "@/types";
+import { UpdateCategoryDto } from "@/types";
 
 export const useCategories = () => {
     return useQuery({
@@ -9,7 +9,7 @@ export const useCategories = () => {
     });
 };
 
-export const useCategory = (id: string) => {
+export const useCategory = (id: number) => {
     return useQuery({
         queryKey: ["categories", id],
         queryFn: () => categoryService.getById(id),
@@ -32,7 +32,7 @@ export const useUpdateCategory = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: ({ id, data }: { id: string; data: Partial<Category> }) => categoryService.update(id, data),
+        mutationFn: ({ id, data }: { id: number; data: UpdateCategoryDto }) => categoryService.update(id, data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["categories"] });
         },
