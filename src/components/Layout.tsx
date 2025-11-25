@@ -100,10 +100,10 @@ export default function Layout({ children }: LayoutProps) {
                                 <Link
                                     key={item.path}
                                     to={item.path}
-                                    className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                                    className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                                         isActive(item.path)
                                             ? "bg-blue-600 text-white"
-                                            : "text-gray-700 hover:bg-gray-100"
+                                            : "text-gray-700 hover:bg-gray-100 hover:shadow-sm"
                                     }`}
                                 >
                                     {item.icon}
@@ -144,17 +144,17 @@ export default function Layout({ children }: LayoutProps) {
 
                 {/* Mobile Navigation Menu */}
                 {isMobileMenuOpen && (
-                    <div className="md:hidden border-t border-gray-200">
+                    <div className="md:hidden border-t border-gray-200 animate-slide-down">
                         <div className="px-2 pt-2 pb-3 space-y-1">
                             {navigationItems.map(item => (
                                 <Link
                                     key={item.path}
                                     to={item.path}
                                     onClick={closeMobileMenu}
-                                    className={`flex items-center space-x-3 px-3 py-3 rounded-lg text-base font-medium transition-colors ${
+                                    className={`flex items-center space-x-3 px-3 py-3 rounded-lg text-base font-medium transition-all duration-200 ${
                                         isActive(item.path)
                                             ? "bg-blue-600 text-white"
-                                            : "text-gray-700 hover:bg-gray-100"
+                                            : "text-gray-700 hover:bg-gray-100 hover:translate-x-1"
                                     }`}
                                 >
                                     {item.icon}
@@ -169,7 +169,7 @@ export default function Layout({ children }: LayoutProps) {
             {/* Mobile Menu Overlay */}
             {isMobileMenuOpen && (
                 <div
-                    className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-20"
+                    className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-20 transition-opacity duration-300"
                     onClick={closeMobileMenu}
                     aria-hidden="true"
                 />

@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Layout from "./components/Layout";
 import DashboardPage from "./pages/DashboardPage";
 import Transactions from "./pages/Transactions";
@@ -29,6 +31,18 @@ function App() {
                     </Routes>
                 </Layout>
             </Router>
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
         </QueryClientProvider>
     );
 }

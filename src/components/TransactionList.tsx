@@ -2,6 +2,7 @@ import { TransactionDto } from "../types/types";
 import { formatDate } from "../utils/date";
 import { formatCurrency } from "../utils/format";
 import { getTransactionTypeColor, getTransactionTypeBadgeColor } from "../types/helpers";
+import EmptyState from "./EmptyState";
 
 interface TransactionListProps {
     transactions: TransactionDto[];
@@ -12,9 +13,20 @@ interface TransactionListProps {
 export default function TransactionList({ transactions, onEdit, onDelete }: TransactionListProps) {
     if (transactions.length === 0) {
         return (
-            <div className="text-center py-8 text-gray-500">
-                No transactions found. Create your first transaction to get started!
-            </div>
+            <EmptyState
+                message="No transactions yet"
+                description="Start tracking your finances by creating your first transaction!"
+                icon={
+                    <svg className="h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.5}
+                            d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
+                        />
+                    </svg>
+                }
+            />
         );
     }
 
@@ -75,13 +87,13 @@ export default function TransactionList({ transactions, onEdit, onDelete }: Tran
                             <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <button
                                     onClick={() => onEdit(transaction)}
-                                    className="text-blue-600 hover:text-blue-900 mr-3"
+                                    className="text-blue-600 hover:text-blue-900 mr-3 transition-colors duration-150 hover:underline"
                                 >
                                     Edit
                                 </button>
                                 <button
                                     onClick={() => onDelete(transaction.id)}
-                                    className="text-red-600 hover:text-red-900"
+                                    className="text-red-600 hover:text-red-900 transition-colors duration-150 hover:underline"
                                 >
                                     Delete
                                 </button>

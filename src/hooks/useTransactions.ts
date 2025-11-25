@@ -1,4 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 import { transactionService } from "../api/transactionService";
 import { UpdateTransactionDto } from "../types/types";
 
@@ -24,6 +25,10 @@ export const useCreateTransaction = () => {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["transactions"] });
             queryClient.invalidateQueries({ queryKey: ["statistics"] });
+            toast.success("Transaction created successfully!");
+        },
+        onError: (error: any) => {
+            toast.error(error.message || "Failed to create transaction");
         },
     });
 };
@@ -35,6 +40,10 @@ export const useUpdateTransaction = () => {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["transactions"] });
             queryClient.invalidateQueries({ queryKey: ["statistics"] });
+            toast.success("Transaction updated successfully!");
+        },
+        onError: (error: any) => {
+            toast.error(error.message || "Failed to update transaction");
         },
     });
 };
@@ -46,6 +55,10 @@ export const useDeleteTransaction = () => {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["transactions"] });
             queryClient.invalidateQueries({ queryKey: ["statistics"] });
+            toast.success("Transaction deleted successfully!");
+        },
+        onError: (error: any) => {
+            toast.error(error.message || "Failed to delete transaction");
         },
     });
 };

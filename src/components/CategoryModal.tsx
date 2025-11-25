@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CategoryForm from "./CategoryForm";
 import { CategoryDto } from "../types/types";
 import { CreateCategoryFormData } from "../types/validation";
@@ -17,6 +17,18 @@ export default function CategoryModal({ isOpen, onClose, category }: CategoryMod
     const updateMutation = useUpdateCategory();
 
     const isEditMode = !!category;
+
+    // Handle escape key press
+    useEffect(() => {
+        const handleEscape = (e: KeyboardEvent) => {
+            if (e.key === "Escape" && isOpen && !createMutation.isPending && !updateMutation.isPending) {
+                handleClose();
+            }
+        };
+
+        document.addEventListener("keydown", handleEscape);
+        return () => document.removeEventListener("keydown", handleEscape);
+    }, [isOpen, createMutation.isPending, updateMutation.isPending]);
 
     const handleSubmit = async (data: CreateCategoryFormData) => {
         try {
@@ -70,7 +82,7 @@ export default function CategoryModal({ isOpen, onClose, category }: CategoryMod
             {/* Background overlay */}
             <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                 <div
-                    className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+                    className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity duration-300"
                     aria-hidden="true"
                     onClick={handleClose}
                 ></div>
@@ -80,7 +92,7 @@ export default function CategoryModal({ isOpen, onClose, category }: CategoryMod
                     &#8203;
                 </span>
 
-                <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all duration-300 sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
                     {/* Modal Header */}
                     <div className="bg-white px-6 pt-5 pb-4">
                         <div className="flex items-center justify-between mb-4">

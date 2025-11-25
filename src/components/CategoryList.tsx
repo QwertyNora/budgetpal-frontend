@@ -1,4 +1,5 @@
 import { CategoryDto, CategoryType } from "../types/types";
+import EmptyState from "./EmptyState";
 
 interface CategoryListProps {
     categories: CategoryDto[];
@@ -50,7 +51,7 @@ export default function CategoryList({ categories, onEdit, onDelete }: CategoryL
                     {categoryList.map(category => (
                         <div
                             key={category.id}
-                            className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow"
+                            className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-1"
                         >
                             <div className="flex items-start justify-between mb-3">
                                 <div className="flex-1">
@@ -77,13 +78,13 @@ export default function CategoryList({ categories, onEdit, onDelete }: CategoryL
                                 <div className="flex space-x-2 pt-3 border-t border-gray-100">
                                     <button
                                         onClick={() => onEdit(category)}
-                                        className="flex-1 px-3 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition-colors"
+                                        className="flex-1 px-3 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition-all duration-200 hover:shadow-md"
                                     >
                                         Edit
                                     </button>
                                     <button
                                         onClick={() => onDelete(category.id)}
-                                        className="flex-1 px-3 py-2 text-sm bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium transition-colors"
+                                        className="flex-1 px-3 py-2 text-sm bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium transition-all duration-200 hover:shadow-md"
                                     >
                                         Delete
                                     </button>
@@ -104,23 +105,20 @@ export default function CategoryList({ categories, onEdit, onDelete }: CategoryL
 
     if (categories.length === 0) {
         return (
-            <div className="text-center py-12 bg-gray-50 rounded-lg">
-                <svg
-                    className="mx-auto h-12 w-12 text-gray-400 mb-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
-                    />
-                </svg>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No categories found</h3>
-                <p className="text-gray-500">Get started by creating your first category</p>
-            </div>
+            <EmptyState
+                message="No categories found"
+                description="Create your first category to organize your transactions"
+                icon={
+                    <svg className="h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.5}
+                            d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
+                        />
+                    </svg>
+                }
+            />
         );
     }
 

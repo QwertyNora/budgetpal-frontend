@@ -96,6 +96,7 @@ export default function TransactionForm({ transaction, onSubmit, onCancel, isSub
                     type="text"
                     id="description"
                     placeholder="Enter description"
+                    autoFocus
                     {...register("description")}
                     className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
                         errors.description ? "border-red-500" : "border-gray-300"

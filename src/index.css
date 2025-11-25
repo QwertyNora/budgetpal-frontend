@@ -19,3 +19,44 @@
         -moz-osx-font-smoothing: grayscale;
     }
 }
+
+@layer components {
+    /* Button hover effects with smooth transitions */
+    .btn {
+        @apply transition-all duration-200 ease-in-out;
+    }
+
+    .btn:hover {
+        @apply transform scale-105;
+    }
+
+    /* Card hover effects */
+    .card-hover {
+        @apply transition-all duration-200 ease-in-out;
+    }
+
+    .card-hover:hover {
+        @apply transform -translate-y-1 shadow-lg;
+    }
+
+    /* Smooth modal transitions */
+    .modal-enter {
+        @apply transition-opacity duration-300 ease-out;
+    }
+
+    .modal-backdrop {
+        @apply transition-opacity duration-300;
+    }
+
+    /* Input focus effects */
+    input:focus,
+    select:focus,
+    textarea:focus {
+        @apply outline-none ring-2 ring-blue-500 border-blue-500 transition-all duration-200;
+    }
+
+    /* Smooth dropdown transitions */
+    .dropdown {
+        @apply transition-all duration-200 ease-in-out;
+    }
+}
