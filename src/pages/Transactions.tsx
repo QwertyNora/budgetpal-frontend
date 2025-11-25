@@ -82,16 +82,16 @@ export default function Transactions() {
     }
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-6 sm:py-8">
             {/* Header */}
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
                 <div>
-                    <h1 className="text-3xl font-bold text-gray-900">Transactions</h1>
-                    <p className="text-gray-600 mt-1">Manage your income and expenses</p>
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Transactions</h1>
+                    <p className="text-gray-600 mt-1 text-sm sm:text-base">Manage your income and expenses</p>
                 </div>
                 <button
                     onClick={handleNewTransaction}
-                    className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                    className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm sm:text-base touch-target w-full sm:w-auto"
                 >
                     + New Transaction
                 </button>
@@ -109,11 +109,11 @@ export default function Transactions() {
 
             {/* Pagination Controls */}
             {data && data.totalPages > 1 && (
-                <div className="mt-6 flex justify-between items-center">
+                <div className="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
                     <button
                         onClick={handlePreviousPage}
                         disabled={!data.hasPrevious}
-                        className={`px-4 py-2 rounded-lg font-medium ${
+                        className={`w-full sm:w-auto px-6 py-3 rounded-lg font-medium text-sm sm:text-base touch-target ${
                             data.hasPrevious
                                 ? "bg-blue-600 text-white hover:bg-blue-700"
                                 : "bg-gray-300 text-gray-500 cursor-not-allowed"
@@ -122,14 +122,14 @@ export default function Transactions() {
                         Previous
                     </button>
 
-                    <span className="text-gray-600">
+                    <span className="text-gray-600 text-sm sm:text-base order-first sm:order-none">
                         Page {data.pageNumber} of {data.totalPages}
                     </span>
 
                     <button
                         onClick={handleNextPage}
                         disabled={!data.hasNext}
-                        className={`px-4 py-2 rounded-lg font-medium ${
+                        className={`w-full sm:w-auto px-6 py-3 rounded-lg font-medium text-sm sm:text-base touch-target ${
                             data.hasNext
                                 ? "bg-blue-600 text-white hover:bg-blue-700"
                                 : "bg-gray-300 text-gray-500 cursor-not-allowed"

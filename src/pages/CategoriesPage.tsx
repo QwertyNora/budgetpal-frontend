@@ -83,16 +83,16 @@ export default function CategoriesPage() {
     }
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-6 sm:py-8">
             {/* Header */}
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
                 <div>
-                    <h1 className="text-3xl font-bold text-gray-900">Categories</h1>
-                    <p className="text-gray-600 mt-1">Manage your transaction categories</p>
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Categories</h1>
+                    <p className="text-gray-600 mt-1 text-sm sm:text-base">Manage your transaction categories</p>
                 </div>
                 <button
                     onClick={handleNewCategory}
-                    className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                    className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm sm:text-base touch-target w-full sm:w-auto"
                 >
                     + New Category
                 </button>

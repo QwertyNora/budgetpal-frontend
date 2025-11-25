@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Navbar from "./components/Navbar";
+import Layout from "./components/Layout";
 import DashboardPage from "./pages/DashboardPage";
 import Transactions from "./pages/Transactions";
 import CategoriesPage from "./pages/CategoriesPage";
@@ -20,17 +20,14 @@ function App() {
     return (
         <QueryClientProvider client={queryClient}>
             <Router>
-                <div className="min-h-screen bg-gray-50">
-                    <Navbar />
-                    <main>
-                        <Routes>
-                            <Route path="/" element={<DashboardPage />} />
-                            <Route path="/transactions" element={<Transactions />} />
-                            <Route path="/categories" element={<CategoriesPage />} />
-                            <Route path="/statistics" element={<Statistics />} />
-                        </Routes>
-                    </main>
-                </div>
+                <Layout>
+                    <Routes>
+                        <Route path="/" element={<DashboardPage />} />
+                        <Route path="/transactions" element={<Transactions />} />
+                        <Route path="/categories" element={<CategoriesPage />} />
+                        <Route path="/statistics" element={<Statistics />} />
+                    </Routes>
+                </Layout>
             </Router>
         </QueryClientProvider>
     );
