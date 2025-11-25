@@ -4,34 +4,34 @@ A modern Budget Tracker application built with React, TypeScript, and Vite.
 
 ## Features
 
-- 📊 Dashboard with overview of transactions, categories, and statistics
-- 💰 Transaction recording (income and expenses)
-- 🏷️ Category organization
-- 📈 Statistics and reports with budget tracking
-- 🎨 Modern UI with Tailwind CSS
-- 🔄 State management with React Query
-- ✅ Form validation with React Hook Form and Zod
-- 📅 Date handling with date-fns
+-   📊 Dashboard with overview of transactions, categories, and statistics
+-   💰 Transaction recording (income and expenses)
+-   🏷️ Category organization
+-   📈 Statistics and reports with budget tracking
+-   🎨 Modern UI with Tailwind CSS
+-   🔄 State management with React Query
+-   ✅ Form validation with React Hook Form and Zod
+-   📅 Date handling with date-fns
 
 ## Tech Stack
 
-- **Framework**: React 18
-- **Language**: TypeScript
-- **Build Tool**: Vite
-- **Styling**: Tailwind CSS
-- **Routing**: React Router DOM
-- **State Management**: TanStack React Query
-- **Forms**: React Hook Form
-- **Validation**: Zod
-- **HTTP Client**: Axios
-- **Date Utilities**: date-fns
+-   **Framework**: React 18
+-   **Language**: TypeScript
+-   **Build Tool**: Vite
+-   **Styling**: Tailwind CSS
+-   **Routing**: React Router DOM
+-   **State Management**: TanStack React Query
+-   **Forms**: React Hook Form
+-   **Validation**: Zod
+-   **HTTP Client**: Axios
+-   **Date Utilities**: date-fns
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 18+ 
-- npm or yarn
+-   Node.js 18+
+-   npm or yarn
 
 ### Installation
 
@@ -106,18 +106,18 @@ src/
 
 The application expects a backend API running at the URL specified in `VITE_API_BASE_URL`. The API should support the following endpoints:
 
-- `GET /api/budgets` - Get all budgets
-- `POST /api/budgets` - Create a budget
-- `PUT /api/budgets/:id` - Update a budget
-- `DELETE /api/budgets/:id` - Delete a budget
-- `GET /api/transactions` - Get all transactions
-- `POST /api/transactions` - Create a transaction
-- `PUT /api/transactions/:id` - Update a transaction
-- `DELETE /api/transactions/:id` - Delete a transaction
-- `GET /api/categories` - Get all categories
-- `POST /api/categories` - Create a category
-- `PUT /api/categories/:id` - Update a category
-- `DELETE /api/categories/:id` - Delete a category
+-   `GET /api/budgets` - Get all budgets
+-   `POST /api/budgets` - Create a budget
+-   `PUT /api/budgets/:id` - Update a budget
+-   `DELETE /api/budgets/:id` - Delete a budget
+-   `GET /api/transactions` - Get all transactions
+-   `POST /api/transactions` - Create a transaction
+-   `PUT /api/transactions/:id` - Update a transaction
+-   `DELETE /api/transactions/:id` - Delete a transaction
+-   `GET /api/categories` - Get all categories
+-   `POST /api/categories` - Create a category
+-   `PUT /api/categories/:id` - Update a category
+-   `DELETE /api/categories/:id` - Delete a category
 
 ## License
 
