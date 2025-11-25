@@ -1,4 +1,4 @@
-import { CategoryDto, CategoryType } from '../types/types';
+import { CategoryDto, CategoryType } from "../types/types";
 
 interface CategoryListProps {
     categories: CategoryDto[];
@@ -15,26 +15,26 @@ export default function CategoryList({ categories, onEdit, onDelete }: CategoryL
     const getCategoryTypeColor = (type: CategoryType): string => {
         switch (type) {
             case CategoryType.Income:
-                return 'bg-green-100 text-green-800 border-green-300';
+                return "bg-green-100 text-green-800 border-green-300";
             case CategoryType.Expense:
-                return 'bg-red-100 text-red-800 border-red-300';
+                return "bg-red-100 text-red-800 border-red-300";
             case CategoryType.Both:
-                return 'bg-blue-100 text-blue-800 border-blue-300';
+                return "bg-blue-100 text-blue-800 border-blue-300";
             default:
-                return 'bg-gray-100 text-gray-800 border-gray-300';
+                return "bg-gray-100 text-gray-800 border-gray-300";
         }
     };
 
     const getCategoryTypeName = (type: CategoryType): string => {
         switch (type) {
             case CategoryType.Income:
-                return 'Income';
+                return "Income";
             case CategoryType.Expense:
-                return 'Expense';
+                return "Expense";
             case CategoryType.Both:
-                return 'Both';
+                return "Both";
             default:
-                return 'Unknown';
+                return "Unknown";
         }
     };
 
@@ -47,7 +47,7 @@ export default function CategoryList({ categories, onEdit, onDelete }: CategoryL
                     {title} <span className="text-gray-500 text-base">({categoryList.length})</span>
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {categoryList.map((category) => (
+                    {categoryList.map(category => (
                         <div
                             key={category.id}
                             className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow"
@@ -56,7 +56,11 @@ export default function CategoryList({ categories, onEdit, onDelete }: CategoryL
                                 <div className="flex-1">
                                     <h3 className="text-lg font-semibold text-gray-900 mb-2">{category.name}</h3>
                                     <div className="flex flex-wrap gap-2">
-                                        <span className={`text-xs px-2 py-1 rounded-full border ${getCategoryTypeColor(category.type)}`}>
+                                        <span
+                                            className={`text-xs px-2 py-1 rounded-full border ${getCategoryTypeColor(
+                                                category.type
+                                            )}`}
+                                        >
                                             {getCategoryTypeName(category.type)}
                                         </span>
                                         {!category.isCustom && (
@@ -122,9 +126,9 @@ export default function CategoryList({ categories, onEdit, onDelete }: CategoryL
 
     return (
         <div>
-            {renderCategoryGroup('Income Categories', incomeCategories, 'border-green-500 text-green-700')}
-            {renderCategoryGroup('Expense Categories', expenseCategories, 'border-red-500 text-red-700')}
-            {renderCategoryGroup('Both (Income & Expense)', bothCategories, 'border-blue-500 text-blue-700')}
+            {renderCategoryGroup("Income Categories", incomeCategories, "border-green-500 text-green-700")}
+            {renderCategoryGroup("Expense Categories", expenseCategories, "border-red-500 text-red-700")}
+            {renderCategoryGroup("Both (Income & Expense)", bothCategories, "border-blue-500 text-blue-700")}
         </div>
     );
 }

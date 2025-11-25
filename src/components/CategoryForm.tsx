@@ -1,7 +1,7 @@
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { createCategorySchema, CreateCategoryFormData } from '../types/validation';
-import { CategoryDto, CategoryType } from '../types/types';
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createCategorySchema, CreateCategoryFormData } from "../types/validation";
+import { CategoryDto, CategoryType } from "../types/types";
 
 interface CategoryFormProps {
     category?: CategoryDto;
@@ -14,16 +14,18 @@ export default function CategoryForm({ category, onSubmit, onCancel, isSubmittin
     const {
         register,
         handleSubmit,
-        formState: { errors }
+        formState: { errors },
     } = useForm<CreateCategoryFormData>({
         resolver: zodResolver(createCategorySchema),
-        defaultValues: category ? {
-            name: category.name,
-            type: category.type
-        } : {
-            name: '',
-            type: CategoryType.Expense
-        }
+        defaultValues: category
+            ? {
+                  name: category.name,
+                  type: category.type,
+              }
+            : {
+                  name: "",
+                  type: CategoryType.Expense,
+              },
     });
 
     return (
@@ -37,14 +39,12 @@ export default function CategoryForm({ category, onSubmit, onCancel, isSubmittin
                     type="text"
                     id="name"
                     placeholder="Enter category name"
-                    {...register('name')}
+                    {...register("name")}
                     className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                        errors.name ? 'border-red-500' : 'border-gray-300'
+                        errors.name ? "border-red-500" : "border-gray-300"
                     }`}
                 />
-                {errors.name && (
-                    <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
-                )}
+                {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>}
             </div>
 
             {/* Type Field */}
@@ -54,27 +54,25 @@ export default function CategoryForm({ category, onSubmit, onCancel, isSubmittin
                 </label>
                 <select
                     id="type"
-                    {...register('type', { valueAsNumber: true })}
+                    {...register("type", { valueAsNumber: true })}
                     className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                        errors.type ? 'border-red-500' : 'border-gray-300'
+                        errors.type ? "border-red-500" : "border-gray-300"
                     }`}
                 >
                     <option value={CategoryType.Income}>Income</option>
                     <option value={CategoryType.Expense}>Expense</option>
                     <option value={CategoryType.Both}>Both</option>
                 </select>
-                {errors.type && (
-                    <p className="mt-1 text-sm text-red-600">{errors.type.message}</p>
-                )}
+                {errors.type && <p className="mt-1 text-sm text-red-600">{errors.type.message}</p>}
             </div>
 
             {/* Help Text */}
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
                 <p className="text-sm text-blue-800">
-                    <strong>Type Guide:</strong><br />
-                    • <strong>Income:</strong> Category for income transactions only<br />
-                    • <strong>Expense:</strong> Category for expense transactions only<br />
-                    • <strong>Both:</strong> Category can be used for both income and expenses
+                    <strong>Type Guide:</strong>
+                    <br />• <strong>Income:</strong> Category for income transactions only
+                    <br />• <strong>Expense:</strong> Category for expense transactions only
+                    <br />• <strong>Both:</strong> Category can be used for both income and expenses
                 </p>
             </div>
 
@@ -93,7 +91,7 @@ export default function CategoryForm({ category, onSubmit, onCancel, isSubmittin
                     disabled={isSubmitting}
                     className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                    {isSubmitting ? 'Saving...' : category ? 'Update' : 'Create'}
+                    {isSubmitting ? "Saving..." : category ? "Update" : "Create"}
                 </button>
             </div>
         </form>

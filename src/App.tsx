@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Navbar from "./components/Navbar";
-import Dashboard from "./pages/Dashboard";
+import DashboardPage from "./pages/DashboardPage";
 import Transactions from "./pages/Transactions";
 import CategoriesPage from "./pages/CategoriesPage";
 import Statistics from "./pages/Statistics";
@@ -24,7 +24,7 @@ function App() {
                     <Navbar />
                     <main>
                         <Routes>
-                            <Route path="/" element={<Dashboard />} />
+                            <Route path="/" element={<DashboardPage />} />
                             <Route path="/transactions" element={<Transactions />} />
                             <Route path="/categories" element={<CategoriesPage />} />
                             <Route path="/statistics" element={<Statistics />} />
